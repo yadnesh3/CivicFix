@@ -1,4 +1,6 @@
 const express = require("express");
+const protect = require("../middleware/authMiddleware");
+const authorizeRoles = require("../middleware/roleMiddleware");
 
 const router = express.Router();
 
@@ -13,7 +15,7 @@ const {
 
 router.post("/", createUser);
 router.post("/login", loginUser);
-router.get("/", getUsers);
+router.get("/", protect, authorizeRoles("admin"), getUsers);
 router.get("/:id", getUserById);
 router.put("/:id", updateUser);
 router.delete("/:id", deleteUser);
